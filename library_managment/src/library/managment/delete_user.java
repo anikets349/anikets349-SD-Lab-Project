@@ -5,6 +5,7 @@
  */
 package library.managment;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -15,12 +16,30 @@ import javax.swing.JOptionPane;
  * @author Nishant
  */
 public class delete_user extends javax.swing.JFrame {
+    public void updateUserIDS() {
+        users.removeAllItems();
+        try {
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project?useSSL=false", "root", "ani123");
+            Statement stm = conn.createStatement();
+            String query = "select id from login where loginType='user';";
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()) {
+                users.addItem(rs.getString("id"));
+            }
+            conn.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
 
     /**
      * Creates new form delete_user
      */
     public delete_user() {
         initComponents();
+        updateUserIDS();
     }
 
     /**
@@ -34,9 +53,9 @@ public class delete_user extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        users = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,8 +95,8 @@ public class delete_user extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(users, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(42, 42, 42))
         );
         layout.setVerticalGroup(
@@ -87,13 +106,13 @@ public class delete_user extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(users, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         pack();
@@ -101,24 +120,21 @@ public class delete_user extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-                String UserID = jTextField1.getText();
+                String UserID = users.getSelectedItem().toString();
         try
         {
-        Class.forName("java.sql.DriverManager");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
-        Statement stmt = con.createStatement();
-        String q="Delete From login where id= '"+UserID+"' ;";
-        //String query="select * from USER where user_id='"+s1+"' AND password='"+s2+"';";
-        stmt.executeUpdate(q);
-        JOptionPane.showMessageDialog(this, "THE USER HAS BEEN DELETED");
-        jTextField1.setText("");
-
+            Class.forName("java.sql.DriverManager");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
+            Statement stmt = con.createStatement();
+            String q="Delete From login where id= '"+UserID+"' ;";
+            //String query="select * from USER where user_id='"+s1+"' AND password='"+s2+"';";
+            stmt.executeUpdate(q);
+            JOptionPane.showMessageDialog(this, "THE USER HAS BEEN DELETED");
+            updateUserIDS();
         }
-        catch (Exception x)
-{
-    JOptionPane.showMessageDialog(this,x.getMessage());
-
-    }
+        catch (Exception x) {
+            JOptionPane.showMessageDialog(this,x.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -166,6 +182,6 @@ public class delete_user extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> users;
     // End of variables declaration//GEN-END:variables
 }

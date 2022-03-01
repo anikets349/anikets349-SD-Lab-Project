@@ -9,12 +9,29 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class create_book extends javax.swing.JFrame {
-
+    int numBooks;   
     /**
      * Creates new form NewJFrame
      */
     public create_book() {
         initComponents();
+        jTextField1.setEditable(false);
+        try {
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project?useSSL=false", "root", "ani123");
+            Statement stm = conn.createStatement();
+            String query = "select count(*) as Total_Books from lib_book;";
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()) {
+                numBooks = rs.getInt("Total_Books")+1;
+                System.out.println("B"+numBooks);
+                jTextField1.setText("B"+numBooks);
+            }
+            conn.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
     }
 
     /**
@@ -192,6 +209,7 @@ public class create_book extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
         String bookId = jTextField1.getText();
         String bName = jTextField3.getText();
         String category = jTextField5.getText();
@@ -201,21 +219,22 @@ public class create_book extends javax.swing.JFrame {
         String rackNo = (String)jComboBox1.getSelectedItem() + "-" + (String)jComboBox2.getSelectedItem() + "-" + (String)jComboBox3.getSelectedItem();
         try
         {
-        Class.forName("java.sql.DriverManager");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
-        Statement stmt = con.createStatement();
-        String q = "insert into lib_book values('"+bookId+"','"+bName+"','"+category+"',"+pages+",'"+rackNo+"','"+bAuth+"','"+bPub+"')";
-        stmt.executeUpdate(q);
-        JOptionPane.showMessageDialog(this, "NEW BOOK HAS BEEN ADDED");
-        jTextField1.setText("");
-        jTextField3.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jComboBox2.setSelectedIndex(0);
-        jComboBox3.setSelectedIndex(0);
+            Class.forName("java.sql.DriverManager");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
+            Statement stmt = con.createStatement();
+            String q = "insert into lib_book values('"+bookId+"','"+bName+"','"+category+"',"+pages+",'"+rackNo+"','"+bAuth+"','"+bPub+"')";
+            stmt.executeUpdate(q);
+            JOptionPane.showMessageDialog(this, "NEW BOOK HAS BEEN ADDED");
+            numBooks++;
+            jTextField1.setText("B"+numBooks);
+            jTextField3.setText("");
+            jTextField5.setText("");
+            jTextField6.setText("");
+            jTextField7.setText("");
+            jTextField8.setText("");
+            jComboBox1.setSelectedIndex(0);
+            jComboBox2.setSelectedIndex(0);
+            jComboBox3.setSelectedIndex(0);
         }
         catch (Exception x)
         {

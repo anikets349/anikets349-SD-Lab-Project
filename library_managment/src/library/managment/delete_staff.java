@@ -5,6 +5,7 @@
  */
 package library.managment;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -15,12 +16,30 @@ import javax.swing.JOptionPane;
  * @author Nishant
  */
 public class delete_staff extends javax.swing.JFrame {
+    public void updateStaffIDS() {
+        staff.removeAllItems();
+        try {
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project?useSSL=false", "root", "ani123");
+            Statement stm = conn.createStatement();
+            String query = "select id from login where loginType='staff';";
+            ResultSet rs = stm.executeQuery(query);
+            while (rs.next()) {
+                staff.addItem(rs.getString("id"));
+            }
+            conn.close();
+        }
+        catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+    }
 
     /**
      * Creates new form Delete_staff
      */
     public delete_staff() {
         initComponents();
+        updateStaffIDS();
     }
 
     /**
@@ -34,9 +53,9 @@ public class delete_staff extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        staff = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,12 +63,6 @@ public class delete_staff extends javax.swing.JFrame {
         jLabel1.setText("Delete Staff");
 
         jLabel2.setText("StaffID");
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Delete");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -65,6 +78,8 @@ public class delete_staff extends javax.swing.JFrame {
             }
         });
 
+        staff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,10 +94,13 @@ public class delete_staff extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jButton2))
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(staff, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,11 +108,11 @@ public class delete_staff extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                    .addComponent(staff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -104,30 +122,23 @@ public class delete_staff extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String UserID = jTextField1.getText();
+        String UserID = staff.getSelectedItem().toString();
         try
         {
-        Class.forName("java.sql.DriverManager");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
-        Statement stmt = con.createStatement();
-        String q="Delete From login where id= '"+UserID+"' ;";
-        //String query="select * from USER where user_id='"+s1+"' AND password='"+s2+"';";
-        stmt.executeUpdate(q);
-        JOptionPane.showMessageDialog(this, "THE STAFF MEMBER HAS BEEN DELETED");
-        jTextField1.setText("");
-
+            Class.forName("java.sql.DriverManager");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
+            Statement stmt = con.createStatement();
+            String q="Delete From login where id= '"+UserID+"' ;";
+            //String query="select * from USER where user_id='"+s1+"' AND password='"+s2+"';";
+            stmt.executeUpdate(q);
+            JOptionPane.showMessageDialog(this, "THE STAFF MEMBER HAS BEEN DELETED");
+            updateStaffIDS();
         }
-        catch (Exception x)
-{
-    JOptionPane.showMessageDialog(this,x.getMessage());
-
-    }
+        catch (Exception x) {
+            JOptionPane.showMessageDialog(this,x.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -176,6 +187,6 @@ public class delete_staff extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> staff;
     // End of variables declaration//GEN-END:variables
 }

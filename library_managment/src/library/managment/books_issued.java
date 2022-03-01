@@ -184,56 +184,54 @@ public class books_issued extends javax.swing.JFrame {
         DefaultListModel s1 = new DefaultListModel();
         s1.removeAllElements();
         lst.clear();
-        try
-        {
-        int countT = 0;
-        Class.forName("java.sql.DriverManager");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
-        Statement stmt = con.createStatement();
-        String q = "select bookName,issueDate,dueDate,fine,paymentDate,isBookReturned,isFinePaid from issues,lib_book where issues.bookId=lib_book.bookId and userId='"+uName+"';";
-        ResultSet rs = stmt.executeQuery(q);
-        int countRS = 0;
-        while(rs.next())
-        {
-            String str= rs.getString("bookName");
-            lst.put(str, new String[]{
-                rs.getString("issueDate"), 
-                rs.getString("duedate"),
-                rs.getString("fine"), 
-                rs.getString("paymentDate"),
-                rs.getString("isBookReturned"),
-                rs.getString("isFinePaid")
-            });
-            countRS++;
-            s1.addElement(str);
-        }
-        if(countRS == 0)
-           JOptionPane.showMessageDialog(null, "NO RECORDS WERE FOUND");
-        else
-        {
-            try
+        try {
+            int countT = 0;
+            Class.forName("java.sql.DriverManager");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
+            Statement stmt = con.createStatement();
+            String q = "select bookName,issueDate,dueDate,fine,paymentDate,isBookReturned,isFinePaid from issues,lib_book where issues.bookId=lib_book.bookId and userId='"+uName+"';";
+            ResultSet rs = stmt.executeQuery(q);
+            int countRS = 0;
+            while(rs.next()) {
+                String str= rs.getString("bookName");
+                lst.put(str, new String[]{
+                    rs.getString("issueDate"), 
+                    rs.getString("duedate"),
+                    rs.getString("fine"), 
+                    rs.getString("paymentDate"),
+                    rs.getString("isBookReturned"),
+                    rs.getString("isFinePaid")
+                });
+                countRS++;
+                s1.addElement(str);
+            }
+            if(countRS == 0)
+               JOptionPane.showMessageDialog(null, "NO RECORDS WERE FOUND");
+            else
             {
-                jList1.setModel(s1);
+                try
+                {
+                    jList1.setModel(s1);
+                }
+                catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(this,e.getMessage());
+                }
             }
-            catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(this,e.getMessage());
-            }
+                jLabel5.setText("");
+                jLabel6.setText("");
+                jLabel7.setText("");
+                jLabel8.setText("");
+                jLabel15.setText("");
         }
-            jLabel5.setText("");
-            jLabel6.setText("");
-            jLabel7.setText("");
-            jLabel8.setText("");
-            jLabel15.setText("");
-            }
-        catch (Exception x)
-        {
+        catch (Exception x) {
             JOptionPane.showMessageDialog(this,x.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
+        jLabel15.setText("");
         String bookId = jList1.getSelectedValue();
         if(bookId.length() > 0)
         {
@@ -241,12 +239,14 @@ public class books_issued extends javax.swing.JFrame {
             jLabel6.setText(lst.get(bookId)[1]);
             jLabel7.setText(lst.get(bookId)[2]);
             jLabel8.setText(lst.get(bookId)[3] != null ? lst.get(bookId)[3] : "Not Applicable");
-            if(lst.get(bookId)[4]=="1" && lst.get(bookId)[5] == "1" ){
-                jLabel15.setText("Fine Paid / Fine N.A");
-            }else if(lst.get(bookId)[4]=="1" && lst.get(bookId)[5] != "0"){
-                jLabel15.setText("Fine Not Paid");
-            }else{
-                jLabel15.setText("Currently Issued");
+            if (lst.get(bookId)[4].equals("1") && lst.get(bookId)[5].equals("1")) {
+                jLabel15.setText("Book returned");
+            }
+            else if (lst.get(bookId)[4].equals("1") && lst.get(bookId)[5].equals("0")) {
+                jLabel15.setText("Book returned, fine not paid");
+            }
+            else {
+                jLabel15.setText("Currently issued");
             }
         }
         else

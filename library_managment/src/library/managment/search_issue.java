@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
  * @author Nishant
  */
 public class search_issue extends javax.swing.JFrame {
-
     /**
      * Creates new form Search_issue_return
      */
@@ -240,10 +239,6 @@ public class search_issue extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 HashMap<String, String[]> lst = new HashMap<>();
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -254,91 +249,89 @@ HashMap<String, String[]> lst = new HashMap<>();
         DefaultListModel s1 = new DefaultListModel();
         s1.removeAllElements();
         lst.clear();
-        try
-        {
-        int countT = 0;
-        Class.forName("java.sql.DriverManager");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
-        Statement stmt = con.createStatement();
-        String q = "select issueId,issueDate,dueDate,fine,paymentDate,isFinePaid,isBookReturned from issues";
-        if(bookid.length() > 0 || userid.length() > 0 || staffid.length() > 0 || (status.length() > 0 && !status.equals("ALL")))
-            q += " where ";
-        if(status.length() > 0)
-        {
-            if(status=="ISSUED"){
-                q += "isBookReturned=0 ";
+        try {
+            int countT = 0;
+            Class.forName("java.sql.DriverManager");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
+            Statement stmt = con.createStatement();
+            String q = "select issueId,issueDate,dueDate,fine,paymentDate,isFinePaid,isBookReturned from issues";
+            if(bookid.length() > 0 || userid.length() > 0 || staffid.length() > 0 || (status.length() > 0 && !status.equals("ALL")))
+                q += " where ";
+            if(status.length() > 0){
+                if(status=="ISSUED"){
+                    q += "isBookReturned=0 ";
+                    countT++;
+                }
+                else if(status=="RETURNED") {
+                    q += "isBookReturned=1 ";
+                    countT++;
+                }
+             }
+            if(bookid.length() > 0)
+            {
+                if(countT > 0)
+                    q += "AND ";
+                q += "bookId='" + bookid +"' ";
+                countT++;
+            }if(userid.length() > 0)
+            {
+                if(countT > 0)
+                    q += "AND ";
+                q += "userId='" + userid + "' ";
+                countT++;
+            }if(staffid.length() > 0)
+            {
+                if(countT > 0)
+                    q += "AND ";
+                q += "issueStaffId='" + staffid + "' ";
                 countT++;
             }
-            else if(status=="RETURNED") {
-                q += "isBookReturned=1 ";
-                countT++;
-            }
-         }
-        if(bookid.length() > 0)
-        {
-            if(countT > 0)
-                q += "AND ";
-            q += "bookId='" + bookid +"' ";
-            countT++;
-        }if(userid.length() > 0)
-        {
-            if(countT > 0)
-                q += "AND ";
-            q += "userId='" + userid + "' ";
-            countT++;
-        }if(staffid.length() > 0)
-        {
-            if(countT > 0)
-                q += "AND ";
-            q += "issueStaffId='" + staffid + "' ";
-            countT++;
-        }
-        q += ";";
-        ResultSet rs = stmt.executeQuery(q);
-        int countRS = 0;
-        while(rs.next())
-        {
-            String str= rs.getString("issueId");
-            lst.put(str, new String[]{
-                rs.getString("issueDate"), 
-                rs.getString("dueDate"),
-                rs.getString("fine"), 
-                rs.getString("paymentDate"),
-                rs.getString("isBookReturned"),
-                rs.getString("isFinePaid")
-            });
-            countRS++;
-            s1.addElement(str);
-        }
-        if(countRS == 0)
-        {
-            JOptionPane.showMessageDialog(null, "NO RECORDS WERE FOUND");
-            try
+            q += ";";
+            ResultSet rs = stmt.executeQuery(q);
+            int countRS = 0;
+            while(rs.next())
             {
-                jList1.setModel(s1);
+                String str= rs.getString("issueId");
+                lst.put(str, new String[]{
+                    rs.getString("issueDate"), 
+                    rs.getString("dueDate"),
+                    rs.getString("fine"), 
+                    rs.getString("paymentDate"),
+                    rs.getString("isBookReturned"),
+                    rs.getString("isFinePaid")
+                });
+                countRS++;
+                s1.addElement(str);
             }
-            catch(Exception e)
+            if(countRS == 0)
             {
-                JOptionPane.showMessageDialog(this,e.getMessage());
+                JOptionPane.showMessageDialog(null, "NO RECORDS WERE FOUND");
+                try
+                {
+                    jList1.setModel(s1);
+                }
+                catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(this,e.getMessage());
+                }
             }
-        }
-        else
-        {
-            try
+            else
             {
-                jList1.setModel(s1);
+                try
+                {
+                    jList1.setModel(s1);
+                }
+                catch(Exception e)
+                {
+                    JOptionPane.showMessageDialog(this,e.getMessage());
+                }
             }
-            catch(Exception e)
-            {
-                JOptionPane.showMessageDialog(this,e.getMessage());
-            }
-        }
-            jLabel12.setText("");
-            jLabel13.setText("");
-            jLabel14.setText("");
-            jLabel15.setText("");
-            jLabel16.setText("");
-            jLabel17.setText("");
+                jLabel12.setText("");
+                jLabel13.setText("");
+                jLabel14.setText("");
+                jLabel15.setText("");
+                jLabel16.setText("");
+                jLabel17.setText("");
         }
         catch (Exception x)
         {
@@ -348,7 +341,9 @@ HashMap<String, String[]> lst = new HashMap<>();
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
+        jLabel17.setText("");
         String issueId = jList1.getSelectedValue();
+        System.out.println("issue id "+ issueId);
         if(issueId.length() > 0)
         {
             jLabel12.setText(issueId);
@@ -356,13 +351,27 @@ HashMap<String, String[]> lst = new HashMap<>();
             jLabel14.setText(lst.get(issueId)[1]);
             jLabel15.setText(lst.get(issueId)[2]);
             jLabel16.setText(lst.get(issueId)[3] != null ? lst.get(issueId)[3] : "Not Applicable");
-            if(lst.get(issueId)[4]=="1" && lst.get(issueId)[5] == "1" ){
-                jLabel17.setText("Fine Paid / Fine N.A");
+            if (lst.get(issueId)[4].equals("1") && lst.get(issueId)[5].equals("1")) {
+                jLabel17.setText("Book returned");
+            }
+            else if (lst.get(issueId)[4].equals("1") && lst.get(issueId)[5].equals("0")) {
+                jLabel17.setText("Book returned, fine not paid");
+            }
+            else {
+                jLabel17.setText("Currently issued");
+            }
+            /*if(lst.get(issueId)[4]=="1" && lst.get(issueId)[5] == "1" ){
+                System.out.println("a");
+                jLabel17.setText("Book returned");
             }else if(lst.get(issueId)[4]=="1" && lst.get(issueId)[5] != "0"){
+                System.out.println("b");
                 jLabel17.setText("Fine Not Paid");
             }else{
+                System.out.println("c");
+                System.out.println(1 == 1);
+                System.out.println("1" == "1");
                 jLabel17.setText("Currently Issued");
-            }
+            }*/
         }
         else
         {
@@ -383,6 +392,10 @@ HashMap<String, String[]> lst = new HashMap<>();
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
