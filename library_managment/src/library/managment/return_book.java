@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class return_book extends javax.swing.JFrame {
     public void updateIssueIDS() {
@@ -113,7 +113,7 @@ public class return_book extends javax.swing.JFrame {
 
         getContentPane().add(issues, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 180, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rahul\\Documents\\SD Project\\anikets349-SD-Lab-Project\\Images\\Return-Book.jpg")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\Return-Book.jpg")); // NOI18N
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 340, 230));
 
         pack();

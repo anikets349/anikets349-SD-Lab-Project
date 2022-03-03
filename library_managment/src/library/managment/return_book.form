@@ -220,7 +220,7 @@
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\Rahul\Documents\SD Project\anikets349-SD-Lab-Project\Images\Return-Book.jpg"/>
+          <Image iconType="2" name="D:\New folder\5th sem\SD\LibraryManagementSystem\Images\Return-Book.jpg"/>
         </Property>
       </Properties>
       <Constraints>

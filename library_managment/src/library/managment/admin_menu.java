@@ -96,7 +96,7 @@ public class admin_menu extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel3.setText("Users:");
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rahul\\Documents\\SD Project\\anikets349-SD-Lab-Project\\Images\\admin.png")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\admin.png")); // NOI18N
 
         jButton7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton7.setText("Logout");
@@ -170,13 +170,12 @@ public class admin_menu extends javax.swing.JFrame {
                                         .addGap(4, 4, 4)
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jButton4)
+                                            .addComponent(jButton5))
                                         .addGap(20, 20, 20)
                                         .addComponent(jButton6))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton2)
-                                        .addGap(84, 84, 84)
-                                        .addComponent(jButton5)))
+                                    .addComponent(jButton2))
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton7)
                                 .addGap(0, 7, Short.MAX_VALUE)))))

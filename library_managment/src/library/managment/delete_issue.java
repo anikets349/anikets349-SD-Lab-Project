@@ -11,6 +11,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Aniket
+ */
 
 public class delete_issue extends javax.swing.JFrame {
 

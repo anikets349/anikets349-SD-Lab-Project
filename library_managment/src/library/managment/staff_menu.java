@@ -7,7 +7,7 @@ package library.managment;
 
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class staff_menu extends javax.swing.JFrame {
 
@@ -145,9 +145,9 @@ public class staff_menu extends javax.swing.JFrame {
         });
         getContentPane().add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 160, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rahul\\Documents\\SD Project\\anikets349-SD-Lab-Project\\Images\\staff.jpg")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\staff.jpg")); // NOI18N
         jLabel4.setToolTipText("");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 400, 350));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 390, 350));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Logout");

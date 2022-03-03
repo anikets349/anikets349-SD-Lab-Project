@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class delete_user extends javax.swing.JFrame {
     public void updateUserIDS() {

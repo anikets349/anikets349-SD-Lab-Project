@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class delete_staff extends javax.swing.JFrame {
     public void updateStaffIDS() {

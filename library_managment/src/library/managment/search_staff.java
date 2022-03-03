@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class search_staff extends javax.swing.JFrame {
 

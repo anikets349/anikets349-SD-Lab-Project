@@ -7,7 +7,7 @@ package library.managment;
 
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class user_menu extends javax.swing.JFrame {
 
@@ -65,7 +65,7 @@ public class user_menu extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rahul\\Documents\\SD Project\\anikets349-SD-Lab-Project\\Images\\user.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\user.jpg")); // NOI18N
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Logout");

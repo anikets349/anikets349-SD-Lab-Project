@@ -129,7 +129,7 @@ public class create_issue extends javax.swing.JFrame {
 
         getContentPane().add(books, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 190, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rahul\\Documents\\SD Project\\anikets349-SD-Lab-Project\\Images\\Issue-Book.jpg")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\Issue-Book.jpg")); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 390, 218));
 
         pack();

@@ -8,6 +8,11 @@ package library.managment;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author Aniket
+ */
+
 public class create_book extends javax.swing.JFrame {
     int numBooks;   
     /**

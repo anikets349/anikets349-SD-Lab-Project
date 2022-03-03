@@ -12,7 +12,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 public class edit_info_user extends javax.swing.JFrame {
 

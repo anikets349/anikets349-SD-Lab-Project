@@ -18,7 +18,7 @@ public class accept_fine extends javax.swing.JFrame {
             //Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project?useSSL=false", "root", "ani123");
             Statement stm = conn.createStatement();
-            String query = "select * from issues where isBookReturned=0 and isFinePaid=0;";
+            String query = "select * from issues where isBookReturned=1 and isFinePaid=0;";
             ResultSet rs = stm.executeQuery(query);
             while (rs.next()) {
                 issues.addItem(rs.getString("issueId"));

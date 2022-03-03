@@ -13,7 +13,7 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 /**
  *
- * @author Nishant
+ * @author Aniket
  */
 
 public class view_info_user extends javax.swing.JFrame {
