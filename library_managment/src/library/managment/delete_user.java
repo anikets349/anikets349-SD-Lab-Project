@@ -126,9 +126,11 @@ public class delete_user extends javax.swing.JFrame {
             Class.forName("java.sql.DriverManager");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project","root", "ani123");
             Statement stmt = con.createStatement();
-            String q="Delete From login where id= '"+UserID+"' ;";
+            String q1="delete From login where id= '"+UserID+"' ;";
+            String q2="delete From lib_users where userId= '"+UserID+"' ;";
             //String query="select * from USER where user_id='"+s1+"' AND password='"+s2+"';";
-            stmt.executeUpdate(q);
+            stmt.executeUpdate(q1);
+            stmt.executeUpdate(q2);
             JOptionPane.showMessageDialog(this, "THE USER HAS BEEN DELETED");
             updateUserIDS();
         }

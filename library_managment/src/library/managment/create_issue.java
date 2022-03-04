@@ -8,6 +8,8 @@ package library.managment;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class create_issue extends javax.swing.JFrame {
@@ -15,8 +17,17 @@ public class create_issue extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    public void setIssueDate() {
+        issueDate.setEditable(false);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+        issueDate.setText(dtf.format(now));
+    }
     public create_issue(String sid) {
         initComponents();
+        setIssueDate();
         staffId = sid;
         try {
             //Class.forName("com.mysql.cj.jdbc.Driver");
@@ -55,13 +66,11 @@ public class create_issue extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         users = new javax.swing.JComboBox<>();
         books = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        issueDate = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -101,22 +110,6 @@ public class create_issue extends javax.swing.JFrame {
         jLabel7.setText("UserName of User");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 120, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        jComboBox1.setSelectedItem(1);
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 57, -1));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", " " }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, 50, -1));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023" }));
-        jComboBox3.setSelectedIndex(8);
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 60, -1));
-
         jButton2.setText("CLOSE");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +124,7 @@ public class create_issue extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon("D:\\New folder\\5th sem\\SD\\LibraryManagementSystem\\Images\\Issue-Book.jpg")); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 390, 218));
+        getContentPane().add(issueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 190, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -141,7 +135,8 @@ public class create_issue extends javax.swing.JFrame {
         System.out.println(bookId);
         String copyNo = jTextField3.getText();
         String userId = users.getSelectedItem().toString();
-        String issueDate = (String)jComboBox3.getSelectedItem() + "-" + (String)jComboBox2.getSelectedItem() + "-" + (String)jComboBox1.getSelectedItem();
+        //String issueDate = (String)jComboBox3.getSelectedItem() + "-" + (String)jComboBox2.getSelectedItem() + "-" + (String)jComboBox1.getSelectedItem();
+        String issueDt = issueDate.getText();
         int maxIssuePeriod, maxIssues, curIssues;
         try
         {
@@ -168,6 +163,7 @@ public class create_issue extends javax.swing.JFrame {
                 }
                 else
                 {
+                    //String dueDt;
                     q = "select * from lib_users inner join user_types on lib_users.userType = user_types.userType where userId='"+userId+"';";
                     rs = stmt.executeQuery(q);
                     if(rs.next())
@@ -183,14 +179,31 @@ public class create_issue extends javax.swing.JFrame {
                         if(curIssues < maxIssues)
                         {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            //SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
                             Calendar c = Calendar.getInstance();
-                            c.setTime(sdf.parse(issueDate));
+                            c.setTime(sdf.parse(issueDt));
                             c.add(Calendar.DATE, maxIssuePeriod);  // number of days to add
                             String dueDate = sdf.format(c.getTime());  // dt is now the new date
 
-                            q = "insert into issues (bookId, copyNo, userId, issueDate, dueDate, issueStaffId) values('"+bookId+"',"+copyNo+",'"+userId+"','"+issueDate+"','"+dueDate+"','"+staffId+"');";
+                            q = "insert into issues (bookId, copyNo, userId, issueDate, dueDate, issueStaffId) values('"+bookId+"',"+copyNo+",'"+userId+"','"+issueDt+"','"+dueDate+"','"+staffId+"');";
                             stmt.executeUpdate(q);
-                            JOptionPane.showMessageDialog(this, "The Book is now Issued");
+                            
+                            /*try {
+                                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBMS_Project?useSSL=false", "root", "ani123");
+                                Statement stm = conn.createStatement();
+                                String query = "select dueDate from issues where bookId='"+bookId+"';";
+                                ResultSet rs1 = stm.executeQuery(query);
+                                rs1 = stm.executeQuery(query);
+                                while (rs1.next()) {
+                                    dueDt = rs1.getString("dueDt");
+                                    System.out.println("Due date : "+dueDt);
+                                }
+                                conn.close();
+                            }
+                            catch(Exception e) {
+                                System.out.println(e.getLocalizedMessage());
+                            }*/
+                            JOptionPane.showMessageDialog(this, "The Book is now Issued! Return the book by "+dueDate);
                         }
                         else 
                         {
@@ -207,9 +220,9 @@ public class create_issue extends javax.swing.JFrame {
         //jTextField1.setText("");
         jTextField3.setText("");
         //users.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jComboBox2.setSelectedIndex(0);
-        jComboBox3.setSelectedIndex(0);
+        //jComboBox1.setSelectedIndex(0);
+        //jComboBox2.setSelectedIndex(0);
+        //jComboBox3.setSelectedIndex(0);
         }
         catch (Exception x)
         {
@@ -220,10 +233,6 @@ public class create_issue extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -280,11 +289,9 @@ public class create_issue extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> books;
+    private javax.swing.JTextField issueDate;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
